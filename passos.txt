@@ -1,0 +1,9 @@
+git config --global user.name silas527
+git config --global user.email silasgabriel072@gmail.com
+
+CLI - Command Line Interface
+
+Criar um projeto API
+dotnet new webapi -o GranVeiculos --use-controllers
+
+dotnet add package Swashbuckle.AspNetCore
