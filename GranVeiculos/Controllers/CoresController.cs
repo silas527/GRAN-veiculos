@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using GranVeiculos.Data;
 using GranVeiculos.Models;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GranVeiculos.Controllers
@@ -25,7 +26,7 @@ namespace GranVeiculos.Controllers
 
         public IActionResult Get(int id)
         {
-            var cor = _db.cores.Find(id);
+            var cor = _db.Cores.Find(id);
             if (cor == null)
                 return NotFound();
             return Ok(cor);
@@ -39,13 +40,13 @@ namespace GranVeiculos.Controllers
                 return BadRequest("Cor informada com problemas");
             _db.Cores.Add(cor);
             _db.SaveChanges();
-            return CreatedAtAction(name(Get), cor.id, new { cor });
+            return CreatedAtAction(nameof(Get), cor.Id, new { cor });
         }
 
-        [HtppPut("{id}")]
+        [HttpPut("{id}")]
         public IActionResult Edit(int id, [FromBody] Cor cor)
         {
-            if (ModelState.IsValid || id != cor.id)
+            if (ModelState.IsValid || id != cor.Id)
                 return BadRequest("cor informad com problemas");
             _db.Cores.Update(cor);
             _db.SaveChanges();
@@ -55,8 +56,16 @@ namespace GranVeiculos.Controllers
 
         [HttpDelete("{id}")]
 
-        public IActionResult Delete(int id);
-        
+        public IActionResult Delete(int id)
+        {
+            var cor = _db.Cores.Find(id);
+            if (cor == null)
+                return NotFound();
+            _db.Cores.Remove(cor);
+            _db.SaveChanges();
+            return NoContent();
+
+        }
 
     }
 }
